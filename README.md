@@ -11,6 +11,7 @@ characters;
 - Background photo represents the current city and changes when new location is set.
 
 ### Technologies used
-- React (Functional components with hooks)
-- CSS/SCSS
+- React (Functional components with Hooks)
+- SCSS
+- HTML
 
