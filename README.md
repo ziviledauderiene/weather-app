@@ -15,3 +15,7 @@ characters;
 - SCSS
 - HTML
 
+### Mobile screenshot
+
+![](https://github.com/ziviledauderiene/weather-app/blob/master/mobile-screenshot.png)
+
