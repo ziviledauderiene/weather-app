@@ -2,6 +2,9 @@
 
 Weather app created using "Foreca Weather" APIs. Users are able to see the current weather conditions and 7 days forecast of their preferred location.
 
+### Link
+https://weather-app-ziviledauderiene.vercel.app/
+
 ![](https://github.com/ziviledauderiene/weather-app/blob/master/screenshot.png)
 
 ### Functionalities

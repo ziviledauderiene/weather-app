@@ -61,7 +61,10 @@ const Search = ({
       !location.toLowerCase().match(/^[a-z][a-z\s]*$/)
     ) {
       setInvalidInput(true);
-    } else getLocation();
+    } 
+    else {
+      getLocation();
+    }
   };
 
   return (

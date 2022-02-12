@@ -2,6 +2,7 @@ const SearchResult = ({
   searchResult,
   setLocation,
   setCity,
+  city,
   setDisplaySearchResults,
   setCurrentConditions,
   setForecastData,
@@ -32,6 +33,9 @@ const SearchResult = ({
         { wind: currentWeatherJSON["current"]["windSpeed"] },
       ];
       setCurrentConditions(currentConditions);
+      console.log(`Selected location: ${searchResult.name}`);
+      console.log(`Current weather conditions: ${currentConditions[0]["temp"]} °C, ${currentConditions[3]["symbolPhrase"]}`);
+      console.log(`${currentWeatherJSON["current"]["time"]}`);  
     })();
   };
 
@@ -70,6 +74,7 @@ const SearchResult = ({
         searchResult.name +
         "')"; // pasirinkto miesto nuotrauka
     })();
+
   };
 
   return (
@@ -87,6 +92,7 @@ const SearchResult = ({
       {searchResult.name}, {searchResult.adminArea}, {searchResult.country}
     </p>
   );
+
 };
 
 export default SearchResult;
