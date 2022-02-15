@@ -19,7 +19,6 @@ export const OneDayForecast = ({ day }) => {
     today = monthString + "-" + dateString;
   };
 
-
   return (
     <div className="one-day">
       <h4>

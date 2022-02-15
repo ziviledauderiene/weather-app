@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import SearchResult from "./SearchResult";
+import { options, urlLocation } from "./modules/urls";
 
 const Search = ({
   location,
@@ -17,40 +18,34 @@ const Search = ({
 
   const getLocation = () => {
     (async () => {
-      const response = await fetch(
-        "https://foreca-weather.p.rapidapi.com/location/search/" + location,
-        {
-          method: "GET",
-          headers: {
-            "x-rapidapi-host": "foreca-weather.p.rapidapi.com",
-            "x-rapidapi-key":
-              "047e2c187bmsh433b21ef75b8c98p1b944ajsncdd12618e935",
-          },
-        }
-      );
-      var locationJSON = await response.json();
+      try {
+        const response = await fetch(urlLocation(location), options);
+        var locationJSON = await response.json();
 
-      var searchResults = [];
-      for (let i = 0; i < locationJSON["locations"].length; i++) {
-        searchResults.push({
-          id: locationJSON["locations"][i]["id"],
-          name: locationJSON["locations"][i]["name"],
-          country: locationJSON["locations"][i]["country"],
-          adminArea: locationJSON["locations"][i]["adminArea"],
-        });
+        var searchResults = [];
+        for (let i = 0; i < locationJSON["locations"].length; i++) {
+          searchResults.push({
+            id: locationJSON["locations"][i]["id"],
+            name: locationJSON["locations"][i]["name"],
+            country: locationJSON["locations"][i]["country"],
+            adminArea: locationJSON["locations"][i]["adminArea"],
+          });
+        }
+        setSearchResults(searchResults.slice(0, 5));
+        setDisplaySearchResults(true);
       }
-      setSearchResults(searchResults.slice(0, 5));
-      setDisplaySearchResults(true);
+      catch (error){
+        console.log(error);
+      }
+      
     })();
   };
 
-  // jeigu ištrinamas paieškos laukelis, tai neberodyti dropdown.
   useEffect(() => {
     if (location === "") {
       setDisplaySearchResults(false);
     } else return;
   }, [location]);
-
 
   const onSubmit = (e) => {
     setLocation(e.target.value);

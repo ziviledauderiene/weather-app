@@ -1,8 +1,9 @@
+import { options, urlCurrentWeather, urlForecast } from "./modules/urls";
+
 const SearchResult = ({
   searchResult,
   setLocation,
   setCity,
-  city,
   setDisplaySearchResults,
   setCurrentConditions,
   setForecastData,
@@ -10,50 +11,33 @@ const SearchResult = ({
 }) => {
   const getCurrentWeather = () => {
     (async () => {
-      const response = await fetch(
-        "https://foreca-weather.p.rapidapi.com/current/" +
-          searchResult.id +
-          "?tempunit=C&windunit=MS&lang=en",
-        {
-          method: "GET",
-          headers: {
-            "x-rapidapi-host": "foreca-weather.p.rapidapi.com",
-            "x-rapidapi-key":
-              "047e2c187bmsh433b21ef75b8c98p1b944ajsncdd12618e935",
-          },
-        }
-      );
-      var currentWeatherJSON = await response.json();
-
-      var currentConditions = [
-        { temp: currentWeatherJSON["current"]["temperature"] },
-        { feelsLikeTemp: currentWeatherJSON["current"]["feelsLikeTemp"] },
-        { symbol: currentWeatherJSON["current"]["symbol"] },
-        { symbolPhrase: currentWeatherJSON["current"]["symbolPhrase"] },
-        { wind: currentWeatherJSON["current"]["windSpeed"] },
-      ];
-      setCurrentConditions(currentConditions);
-      console.log(`Selected location: ${searchResult.name}`);
-      console.log(`Current weather conditions: ${currentConditions[0]["temp"]} °C, ${currentConditions[3]["symbolPhrase"]}`);
-      console.log(`${currentWeatherJSON["current"]["time"]}`);  
+      try {
+        const response = await fetch(urlCurrentWeather(searchResult.id), options);
+        var currentWeatherJSON = await response.json();
+        console.log(currentWeatherJSON);
+  
+        var currentConditions = [
+          { temp: currentWeatherJSON["current"]["temperature"] },
+          { feelsLikeTemp: currentWeatherJSON["current"]["feelsLikeTemp"] },
+          { symbol: currentWeatherJSON["current"]["symbol"] },
+          { symbolPhrase: currentWeatherJSON["current"]["symbolPhrase"] },
+          { wind: currentWeatherJSON["current"]["windSpeed"] },
+        ];
+        setCurrentConditions(currentConditions);
+        console.log(`Selected location: ${searchResult.name}`);
+        console.log(`Current weather conditions: ${currentConditions[0]["temp"]} °C, ${currentConditions[3]["symbolPhrase"]}`);
+        console.log(`${currentWeatherJSON["current"]["time"]}`);  
+      }
+      catch (error){
+        console.log(error);
+      }
     })();
   };
 
   const getForecast = () => {
     (async () => {
-      const response = await fetch(
-        "https://foreca-weather.p.rapidapi.com/forecast/daily/" +
-          searchResult.id +
-          "?alt=0&tempunit=C&windunit=MS&periods=8&dataset=full",
-        {
-          method: "GET",
-          headers: {
-            "x-rapidapi-host": "foreca-weather.p.rapidapi.com",
-            "x-rapidapi-key":
-              "047e2c187bmsh433b21ef75b8c98p1b944ajsncdd12618e935",
-          },
-        }
-      );
+      try {
+        const response = await fetch(urlForecast(searchResult.id), options);
       var forecastJSON = await response.json();
 
       var forecastData = [];
@@ -72,7 +56,12 @@ const SearchResult = ({
       document.body.style.backgroundImage =
         "url('https://source.unsplash.com/1600x900/?" +
         searchResult.name +
-        "')"; // pasirinkto miesto nuotrauka
+        "')";
+      }
+      catch (error){
+        console.log(error);
+      }
+       
     })();
 
   };
